@@ -40,5 +40,54 @@ h_label2.addLayout(v_label1)
 h_label2.addLayout(v_label2)
 win.setLayout(h_label2)
 
+def filter(files, extensions):
+  result = []
+  for filename in files:
+     for extension in extensions:
+        if extension in filename:
+            result.append(filename)
+  return result
+
+
+def showFilenamesList():
+  global workdir = QFileDialog.getExistingDirectory()  # путь к папке
+  files = os.listdir(workdir) # имена файлов в этой папке
+  extensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp']
+  filtered_files = filter(files, extensions)
+  list_pic.clear()
+  for f in filtered_files:
+     list_pic.addItem(f)
+
+btn_dir.clicked.connect(showFilenamesList)
+
+
+class ImageProcessor():
+   def __init__(self):
+      self.image = None
+      self.filename = None
+
+   def loadImage(self, filename):
+      self.filename = filename
+      file_path = os.path.join(workdir, filename)
+      cur_image = Image.open(file_path)
+      self.image = cur_image
+
+   def showImage(self, path):
+      pic.hide()
+      pixmapimage = QPixmap(path)
+      width, height = pic.width(), pic.height()
+      pixmapimage = pixmapimage.scaled(width, height, Qt.KeepAspectRatio)
+      pic.setPixmap(pixmapimage)
+      pic.show()
+
+def showChosenImage():
+   if list_pic.currentRow() >= 0:
+       filename = list_pic.currentItem().text()
+       workimage.loadImage(filename)
+       image_path = os.path.join(workdir, workimage.filename)
+       workimage.showImage(image_path)
+
+list_pic.currentRowChanged.connect(showChosenImage)
+
 win.show()
 app.exec()
