@@ -65,6 +65,7 @@ class ImageProcessor():
    def __init__(self):
       self.image = None
       self.filename = None
+      self.folder = "Modified/"
 
    def loadImage(self, filename):
       self.filename = filename
@@ -79,7 +80,20 @@ class ImageProcessor():
       pixmapimage = pixmapimage.scaled(width, height, Qt.KeepAspectRatio)
       pic.setPixmap(pixmapimage)
       pic.show()
+   def do_bw(self):
+      self.image = self.image.convert("L")
+      self.saveImage()
+      image_path = os.path.join(workdir, self.folder, self.filename)
+      self.showImage(image_path)
 
+   def saveImage(self):
+     path = os.path.join(workdir, self.folder)
+     if not(os.path.exists(path) or os.path.isdir(path)):
+         os.mkdir(path)
+     image_path = os.path.join(path, self.filename)
+     self.image.save(image_path)
+
+workimage = ImageProcessor()
 def showChosenImage():
    if list_pic.currentRow() >= 0:
        filename = list_pic.currentItem().text()
@@ -88,6 +102,7 @@ def showChosenImage():
        workimage.showImage(image_path)
 
 list_pic.currentRowChanged.connect(showChosenImage)
+btn5.clicked.connect(workimage.do_bw)
 
 win.show()
 app.exec()
