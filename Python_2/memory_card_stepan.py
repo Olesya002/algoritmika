@@ -74,6 +74,7 @@ button.clicked.connect(show_test)
 
 lind.addWidget(button)
 
-ask('какая комбинация клафишь копирует выделенный текс?','right_answer','wrong1','wrong2','wrong3')         '''тут переписать, как объект ask(Qesthon('какая комбинация клафишь копирует выделенный текс?','right_answer','wrong1','wrong2','wrong3'))
+ask('какая комбинация клафишь копирует выделенный текс?','right_answer','wrong1','wrong2','wrong3')         '''тут переписать, как объект '''
+                                                                                                       '''ask(Qesthon('какая комбинация клафишь копирует выделенный текс?','right_answer','wrong1','wrong2','wrong3'))'''
 window.show()
 app.exec()
