@@ -1,0 +1,201 @@
+<Screen>:
+    canvas.before:
+        Color:
+            rgba: (0.75, 0.58, 0.84, 1) # Светло-серый фон
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<Button>:
+    font_size: '30sp'
+    background_normal: '' # Убираем стандартную серую текстуру
+    background_color: (1, 1, 1, 1) 
+    color: (0, 0, 0, 1)
+    size_hint_y: None
+    height: '40dp'
+
+
+<TextInput>:
+    padding: [10, 10]
+    font_size: '16sp'
+    multiline: False
+    background_color: (1, 1, 1, 1)
+
+
+<Label>:
+    color: (0.2, 0.2, 0.2, 1) # Темно-серый текст
+    font_size: '18sp'
+
+
+ScreenManager:
+    InstrScr:
+    PulseScr:
+    CheckSits:
+    PulseScr2:
+    Result:
+
+<InstrScr>:
+    name: 'instr'
+    in_name: name_input
+    in_age: age_input
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 15
+        spacing: 20
+
+        Label:
+            text: root.inst_text
+            halign: 'center'
+            
+
+        BoxLayout:
+            size_hint: (0.8, None)
+            height: '35sp'
+            pos_hint: {'center_x': 0.5}
+            Label:
+                text: 'Введите имя:'
+                halign: 'right'
+            TextInput:
+                id: name_input
+                hint_text: 'Иван'
+                multiline: False
+
+        BoxLayout:
+            size_hint: (0.8, None)
+            height: '35sp'
+            pos_hint: {'center_x': 0.5}
+            Label:
+                text: 'Введите возраст:'
+                halign: 'right'
+            TextInput:
+                id: age_input
+                hint_text: '7'
+                multiline: False
+
+        Button:
+            text: 'Начать'
+            size_hint: (0.3, 0.2)
+            pos_hint: {'center_x': 0.5}
+            on_release: root.next()
+
+
+<PulseScr>:
+    name: 'pulse1'
+    in_p1: p1_input
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 15
+        spacing: 15
+
+        Label:
+            text: root.inst_text
+            halign: 'center'
+
+        BoxLayout:
+            size_hint: (0.8, None)
+            height: '30sp'
+            pos_hint: {'center_x': 0.5}
+            height: '35sp'
+            Label:
+                text: 'Введите результат:'
+                halign: 'right'
+            TextInput:
+                id: p1_input
+                multiline: False
+
+        Button:
+            text: 'Продолжить'
+            size_hint: (0.3, 0.2)
+            pos_hint: {'center_x': 0.5}
+            on_release: root.next()
+
+
+<CheckSits>:
+    name: 'sits'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 15
+        spacing: 15
+
+        Label:
+            text: root.inst_text
+            halign: 'center'
+        Label:
+            # Текст автоматически обновится при изменении time_left в Python
+            text: str(int(root.time_left)) if root.time_left > 0 else 'Время вышло!'
+            font_size: 100
+            halign: 'center'
+            valign: 'middle'
+
+        BoxLayout:
+            spacing: 15
+            pos_hint: {'center_x': 0.5}
+            Button:
+                # Меняем текст кнопки динамически
+                text: 'Пауза' if root.timer_running else 'Старт'
+                size_hint: (1, 0.2)
+                on_release: root.start_timer()
+
+            Button:
+                text: 'Сброс'
+                size_hint: (1, 0.2)
+                on_release: root.reset_timer()
+
+        Button:
+            text: 'Продолжить'
+            size_hint: (0.3, 0.2)
+            pos_hint: {'center_x': 0.5}
+            on_release: root.next()
+
+<PulseScr2>
+    name: 'pulse2'
+    in_p2: p2_input
+    in_p3: p3_input
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 15
+        spacing: 15
+
+
+        Label:
+            text: root.inst_text
+            halign: 'center'
+
+        BoxLayout:
+            size_hint: (0.8, None)
+            height: '35sp'
+            pos_hint: {'center_x': 0.5}
+            Label:
+                text: 'Результат:'
+                halign: 'right'
+            TextInput:
+                id: p2_input
+                multiline: False
+
+        BoxLayout:
+            size_hint: (0.8, None)
+            height: '35sp'
+            pos_hint: {'center_x': 0.5}
+            Label:
+                text: 'Результат после отдыха:'
+                halign: 'right'
+            TextInput:
+                id: p3_input
+                multiline: False
+
+        Button:
+            text: 'Завершить'
+            size_hint: (0.3, 0.2)
+            pos_hint: {'center_x': 0.5}
+            on_release: root.next()
+
+<Result>
+    name: 'result'
+    Label:
+        id: result_label
+        text: ''
+        halign: 'center'
